@@ -11,9 +11,4 @@ private val getCharacterUseCase: GetCharacterUseCase
 
     private val _characterData = MutableLiveData<Character>()
     val characterData: LiveData<Character> = _characterData
-
-//    private fun getCharacters(){
-//        val response = getCharacterUseCase.getCharacter()
-//        _characterData.value = response
-//    }
 }

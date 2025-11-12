@@ -1,4 +1,4 @@
-package com.geeks.rickandmortyapp.presentation
+package com.geeks.rickandmortyapp
 
 import android.app.Application
 
