@@ -5,12 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.geeks.rickandmortyapp.databinding.FragmentMainScreenBinding
 import com.geeks.rickandmortyapp.presentation.adapter.MainScreenAdapter
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainScreenFragment : Fragment() {
     private val adapter = MainScreenAdapter()
     private lateinit var binding : FragmentMainScreenBinding
+    private val viewModel: MainScreenViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +32,17 @@ class MainScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         init()
         loadData()
+        viewLifeCycleUI()
+    }
+
+    private fun viewLifeCycleUI() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.charactersState.collect {
+
+                }
+            }
+        }
     }
 
     private fun loadData(){

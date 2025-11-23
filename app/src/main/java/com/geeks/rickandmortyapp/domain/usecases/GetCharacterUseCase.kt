@@ -1,6 +1,5 @@
 package com.geeks.rickandmortyapp.domain.usecases
 
-import androidx.lifecycle.LiveData
 import com.geeks.rickandmortyapp.domain.models.Character
 import com.geeks.rickandmortyapp.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +7,5 @@ import kotlinx.coroutines.flow.Flow
 class GetCharacterUseCase(
     private val characterRepository: CharacterRepository
 ) {
-    fun getCharacter(): Flow<List<Character>>{
-        return characterRepository.getCharacter()
-    }
+    fun getCharacter(): Flow<List<Character>> = characterRepository.getCharacter()
 }
