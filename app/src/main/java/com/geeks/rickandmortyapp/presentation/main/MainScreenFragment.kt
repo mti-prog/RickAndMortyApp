@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.geeks.rickandmortyapp.databinding.FragmentMainScreenBinding
+import com.geeks.rickandmortyapp.domain.models.Character
 import com.geeks.rickandmortyapp.presentation.adapter.MainScreenAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +30,6 @@ class MainScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        loadData()
         viewLifeCycleUI()
     }
 
@@ -39,13 +37,13 @@ class MainScreenFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.charactersState.collect {
-
+                    loadData(it)
                 }
             }
         }
     }
 
-    private fun loadData(){
+    private fun loadData(characters: List<Character>) {
 
     }
 
