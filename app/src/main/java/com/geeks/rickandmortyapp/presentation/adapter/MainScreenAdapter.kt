@@ -2,18 +2,19 @@ package com.geeks.rickandmortyapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.geeks.rickandmortyapp.domain.model.Character
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.geeks.rickandmortyapp.databinding.CharacterItemBinding
-import com.geeks.rickandmortyapp.domain.models.Character
 
 class MainScreenAdapter() : RecyclerView.Adapter<MainScreenAdapter.MainScreenViewHolder>() {
 
     private var data : ArrayList<Character> = arrayListOf()
 
-    fun getList(list: ArrayList<Character>){
+    fun getList(list: List<Character>){
         data.clear()
         data.addAll(list)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(

@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.geeks.rickandmortyapp.databinding.FragmentMainScreenBinding
-import com.geeks.rickandmortyapp.domain.models.Character
+import com.geeks.rickandmortyapp.domain.model.Character
 import com.geeks.rickandmortyapp.presentation.adapter.MainScreenAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,14 +38,31 @@ class MainScreenFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.charactersState.collect {
-                    loadData(it)
+                    handleUIState(it)
                 }
             }
         }
     }
+    private fun handleUIState(uiState: CharacterUIState) {
+        // Скрываем индикатор загрузки по умолчанию
+        binding.progressBar.visibility = View.GONE
+        when (uiState) {
+            is CharacterUIState.Loading -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
+            is CharacterUIState.Success -> {
+                loadData(uiState.characters)
+            }
+            is CharacterUIState.Error -> {
+                Toast.makeText(requireContext(), "Error: ${uiState.message}", Toast.LENGTH_LONG).show()
+            }
+
+            CharacterUIState.Idle -> ""
+        }
+    }
 
     private fun loadData(characters: List<Character>) {
-
+        adapter.getList(characters)
     }
 
     private fun init(){
